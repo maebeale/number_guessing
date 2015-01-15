@@ -1,7 +1,7 @@
 NOISY = false
 
 def setup_game
-  @target = (Random.rand(3) + 1).to_i # || @target = (1..100).to_a.sample
+  @target = (Random.rand(100) + 1).to_i # || @target = (1..100).to_a.sample
   @player_turns = 5 #TODO - make it so player can choose their number of turns
   @computer_turns = 0
   @player_guesses = []
@@ -11,8 +11,7 @@ end
 def turn(guess, target, turns, player_guesses) #TODO - make this more generic vs just player_guesses
   puts "---------------player_guesses = #{player_guesses}" if NOISY
   puts "---------------turns_start   = #{turns}" if NOISY
-    while guess != target
-      while turns > 0
+    while guess != target && turns > 0
         turns -= 1
         puts "---------------turns_current = #{turns}" if NOISY
         puts "---------------target = #{target}" if NOISY
@@ -35,7 +34,6 @@ def turn(guess, target, turns, player_guesses) #TODO - make this more generic vs
           player_turn(@target, turns, @player_guesses)
         end
     end
-  end
   puts "CONGRATS!!! :) You guessed the number #{target}. You had #{turns} turns left of #{turns + 5}."
 end
 
@@ -53,6 +51,7 @@ def player_turn(target, turns, player_guesses)
     puts "Sorry! You used all your #{turns + 5} turns before guessing the number #{target}, so lost. Until next time..." #TODO - fix brittleness
     play_again_prompt
   end
+  puts "---------------target = #{target}"# if NOISY
   player_guess = gets.chomp.to_i
   unless player_guess == target
     if player_guess > 0
@@ -74,7 +73,7 @@ def play_again_prompt
     player_turn(@target, @player_turns, @player_guesses)
   else
     puts "Thanks for playing! Hope you'll come back to play Eniac!"
-    #TODO - how to end the game here?
+    exit
   end
 end
 
